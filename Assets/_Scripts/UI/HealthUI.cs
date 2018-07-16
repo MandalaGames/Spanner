@@ -1,0 +1,47 @@
+using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+using Spanner;
+
+[RequireComponent(typeof(Text))]
+public class HealthUI : MonoBehaviour {
+
+    public Mortal targetMortal;
+
+    private Text _text;
+
+    private void Start() {
+        _text = GetComponent<Text>();
+        if (targetMortal != null) {
+            _text.text = "Health: " + targetMortal.settings.startingHealth + "/" + targetMortal.settings.maxHealth;
+        }
+    }
+
+    private void OnEnable() {
+        if (targetMortal != null) {
+            targetMortal.OnDamage += OnDamageHandler;
+            targetMortal.OnHeal += OnHealHandler;
+            targetMortal.OnDeath += OnDeathHandler;
+        }
+    }
+
+    private void OnDisable() {
+        if (targetMortal != null) {
+            targetMortal.OnDamage -= OnDamageHandler;
+            targetMortal.OnHeal -= OnHealHandler;
+            targetMortal.OnDeath -= OnDeathHandler;
+        }
+    }
+
+    public void OnDamageHandler(Mortal mortal, int amount, int currenthealth) {
+        _text.text = "Health: " + currenthealth + "/" + mortal.settings.maxHealth;
+    }
+
+    public void OnHealHandler(Mortal mortal, int amount, int currenthealth) {
+        _text.text = "Health: " + currenthealth + "/" + mortal.settings.maxHealth;
+    }
+
+    public void OnDeathHandler(Mortal mortal) {
+        _text.text = "Dead";
+    }
+}
