@@ -22,6 +22,7 @@ public class HealthUI : MonoBehaviour {
             targetMortal.OnDamage += OnDamageHandler;
             targetMortal.OnHeal += OnHealHandler;
             targetMortal.OnDeath += OnDeathHandler;
+            targetMortal.OnSettingsSanitized += OnSettingsSanitizedHandler;
         }
     }
 
@@ -30,6 +31,14 @@ public class HealthUI : MonoBehaviour {
             targetMortal.OnDamage -= OnDamageHandler;
             targetMortal.OnHeal -= OnHealHandler;
             targetMortal.OnDeath -= OnDeathHandler;
+            targetMortal.OnSettingsSanitized -= OnSettingsSanitizedHandler;
+        }
+    }
+
+    public void OnSettingsSanitizedHandler(Mortal mortal) {
+        _text = GetComponent<Text>();
+        if (targetMortal != null) {
+            _text.text = "Health: " + targetMortal.CurrentHealth + "/" + targetMortal.MaxHealth;
         }
     }
 
