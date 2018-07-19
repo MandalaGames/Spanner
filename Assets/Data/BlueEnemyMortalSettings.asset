@@ -11,5 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6f1c60611daabb4295d2cdd719175d0, type: 3}
   m_Name: BlueEnemyMortalSettings
   m_EditorClassIdentifier: 
+  randomizeHealth: 1
   maxHealth: 3
   startingHealth: 1
+  maxHealthCap: 10
+  minHealthCap: 1
+  maxStartingHealth: 10
+  minStartingHealth: 4
