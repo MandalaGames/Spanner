@@ -97,7 +97,7 @@ namespace Spanner {
                 if (amount < 0) {
                     Debug.LogError("Damage amount must be greater than or equal to zero");
                 } else {
-                    _currentHealth = Mathf.Clamp(_currentHealth - amount, 0, settings.maxHealth);
+                    _currentHealth = Mathf.Clamp(_currentHealth - amount, 0, _maxHealth);
                     if (OnDamage != null) {
                         OnDamage(this, amount, _currentHealth);
                     }
@@ -118,7 +118,7 @@ namespace Spanner {
                 if (amount < 0) {
                     Debug.LogError("Heal amount must be greater than or equal to zero");
                 } else {
-                    _currentHealth = Mathf.Clamp(_currentHealth + amount, 1, settings.maxHealth);
+                    _currentHealth = Mathf.Clamp(_currentHealth + amount, 1, _maxHealth);
                     if (OnHeal != null) {
                         OnHeal(this, amount, _currentHealth);
                     }
