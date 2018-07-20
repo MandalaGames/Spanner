@@ -205,15 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8859f91519d47dc4b9e7fefd52fb93cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pools:
-  - prefabToPool: {fileID: 1728392194387884, guid: 696a437143c1cc24db200b3d8a61fd3b,
-      type: 2}
-    numberToPool: 50
-    startEnabled: 0
-  - prefabToPool: {fileID: 1692335441331286, guid: 3e027b39f291efd43b3663d18eef5c64,
-      type: 2}
-    numberToPool: 30
-    startEnabled: 0
+  pools: []
 --- !u!4 &418955194
 Transform:
   m_ObjectHideFlags: 0

@@ -6,4 +6,5 @@ public class ObjectPool {
     public GameObject prefabToPool;
     public int numberToPool;
     public bool startEnabled;
+    public string poolID;
 }
