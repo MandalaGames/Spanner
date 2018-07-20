@@ -43,11 +43,11 @@ public class HealthUI : MonoBehaviour {
     }
 
     public void OnDamageHandler(Mortal mortal, int amount, int currenthealth) {
-        _text.text = "Health: " + currenthealth + "/" + mortal.settings.maxHealth;
+        _text.text = "Health: " + mortal.CurrentHealth + "/" + mortal.MaxHealth;
     }
 
     public void OnHealHandler(Mortal mortal, int amount, int currenthealth) {
-        _text.text = "Health: " + currenthealth + "/" + mortal.settings.maxHealth;
+        _text.text = "Health: " + mortal.CurrentHealth + "/" + mortal.MaxHealth;
     }
 
     public void OnDeathHandler(Mortal mortal) {
