@@ -6,3 +6,6 @@ A set of tools, components, and editor extensions for game development in Unity.
 2. Open your Unity project, right click anywhere in your Assets folder, and click "Import Package -> Custom" (you don't have to delete the old folder, if you're using an older version)
 3. Navigate to the package file you downloaded in step 1 and select it.
 4. All done! You should now be able to use our latest code in your project! It should all live under Assets/Spanner.
+
+# The Mortal System
+[Click here for documentation on the Mortal System.](https://github.com/MandalaGames/Spanner/tree/master/Assets/Spanner/MortalSystem)
