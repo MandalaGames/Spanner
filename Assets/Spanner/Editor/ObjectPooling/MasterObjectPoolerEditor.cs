@@ -48,12 +48,6 @@ namespace Spanner {
                 master.PoolObjects();
             }
 
-            if (GUILayout.Button("Test")) {
-                foreach (ObjectPool pool in master.pools) {
-                    pool.Test();
-                }
-            }
-
             // Apply changes made from the inspector to the object
             serializedObject.ApplyModifiedProperties();
         }

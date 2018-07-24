@@ -21,6 +21,7 @@ namespace Spanner {
 
         private void OnEnable() {
             _instance = this;
+            DontDestroyOnLoad(_instance);
         }
 
         /// <summary>
@@ -64,7 +65,8 @@ namespace Spanner {
         }
 
         public GameObject Get(GameObject prefab) {
-            ObjectPool pool = pools.Find(p => prefab.name == p.prefabToPool.name);
+            ObjectPool pool = pools.Find(p => AssetDatabase.GetAssetPath(prefab.GetInstanceID()) == 
+                AssetDatabase.GetAssetPath(p.prefabToPool.GetInstanceID()));
             if (pool != null) {
                 return pool.Get();
             } else {
