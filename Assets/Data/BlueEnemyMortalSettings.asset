@@ -18,3 +18,4 @@ MonoBehaviour:
   minHealthCap: 1
   maxStartingHealth: 10
   minStartingHealth: 4
+  initializeOnStart: 1

@@ -11,5 +11,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6f1c60611daabb4295d2cdd719175d0, type: 3}
   m_Name: RedEnemyMortalSettings
   m_EditorClassIdentifier: 
+  randomizeHealth: 0
   maxHealth: 5
   startingHealth: 5
+  maxHealthCap: 0
+  minHealthCap: 0
+  maxStartingHealth: 0
+  minStartingHealth: 0
+  initializeOnStart: 1

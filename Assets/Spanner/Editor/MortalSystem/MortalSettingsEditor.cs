@@ -13,6 +13,7 @@ namespace Spanner {
             public SerializedProperty minStartingHealth;
             public SerializedProperty maxHealth;
             public SerializedProperty startingHealth;
+            public SerializedProperty initializeOnStart;
         }
 
         private SerializedProperties _properties;
@@ -25,6 +26,7 @@ namespace Spanner {
             _properties.minStartingHealth = serializedObject.FindProperty("minStartingHealth");
             _properties.maxHealth = serializedObject.FindProperty("maxHealth");
             _properties.startingHealth = serializedObject.FindProperty("startingHealth");
+            _properties.initializeOnStart = serializedObject.FindProperty("initializeOnStart");
         }
 
         public override void OnInspectorGUI() {
@@ -44,6 +46,9 @@ namespace Spanner {
                 EditorGUILayout.PropertyField(_properties.maxHealth);
                 EditorGUILayout.PropertyField(_properties.startingHealth);
             }
+
+            // Always draw the checkbox for 'Initialize On Startup'
+            EditorGUILayout.PropertyField(_properties.initializeOnStart);
 
             SanitizeInputs();
 
