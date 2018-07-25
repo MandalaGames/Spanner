@@ -18,5 +18,7 @@ namespace Spanner {
         public int maxStartingHealth;
         /// <summary>If randomized, what is the minimum starting health?</summary>
         public int minStartingHealth;
+        /// <summary>Should the settings be applied during the Mortal's Start() phase?</summary>
+        public bool initializeOnStart;
     }
 }

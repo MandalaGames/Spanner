@@ -8,13 +8,13 @@ namespace Spanner {
         public MortalSettings settings;
 
         #region events
-        public delegate void OnSettingsSanitizedHandler(Mortal mortal);
+        public delegate void OnInitializedHandler(Mortal mortal);
         public delegate void OnDamageHandler(Mortal mortal, int amount, int currentHealth);
         public delegate void OnHealHandler(Mortal mortal, int amount, int currentHealth);
         public delegate void OnDeathHandler(Mortal mortal);
         public delegate void OnReviveHandler(Mortal mortal, int currentHealth);
 
-        public event OnSettingsSanitizedHandler OnSettingsSanitized;
+        public event OnInitializedHandler OnInitialized;
         public event OnDamageHandler OnDamage;
         public event OnHealHandler OnHeal;
         public event OnDeathHandler OnDeath;
@@ -34,57 +34,84 @@ namespace Spanner {
         #endregion
 
         private void Start() {
-            // Clean the user's horrible input
-            SanitizeSettings();
-            // Compute the maximum and current health from the sanitized settings value
-            if (settings.randomizeHealth) {
-                _maxHealth = Random.Range(settings.minHealthCap, settings.maxHealthCap + 1);
-                _currentHealth = Mathf.Clamp(Random.Range(settings.minStartingHealth, settings.maxStartingHealth), 1, _maxHealth);
-            } else {
-                _maxHealth = settings.maxHealth;
-                _currentHealth = settings.startingHealth;
+            if(settings.initializeOnStart) {
+                Initialize();
             }
+        }
 
-            // Let listeners know that the settings are finalized
-            if (OnSettingsSanitized != null) {
-                OnSettingsSanitized(this);
+        /// <summary>
+        /// Applies the public settings to the Mortal
+        /// </summary>
+        public void Initialize() {
+            Initialize(settings);
+        } 
+
+        /// <summary>
+        /// Applies the given settings to the Mortal
+        /// </summary>
+        /// <param name="newSettings">The settings to apply</param>
+        public void Initialize(MortalSettings newSettings) {
+            // Clean the user's horrible input
+            SanitizeSettings(newSettings);
+            // Compute the maximum and current health from the sanitized settings value
+            if (newSettings.randomizeHealth) {
+                _maxHealth = Random.Range(newSettings.minHealthCap, newSettings.maxHealthCap + 1);
+                _currentHealth = Mathf.Clamp(Random.Range(newSettings.minStartingHealth, newSettings.maxStartingHealth), 1, _maxHealth);
+            } else {
+                _maxHealth = newSettings.maxHealth;
+                _currentHealth = newSettings.startingHealth;
             }
 
             _dead = false;
+
+            // Let listeners know that the settings have been applied
+            if (OnInitialized != null) {
+                OnInitialized(this);
+            }
+        } 
+
+        /// <summary>
+        /// Checks whether or not the public settings are valid and sanitizes the user's input.
+        /// </summary>
+        private void SanitizeSettings() {
+            settings = SanitizeSettings(settings);
         }
 
         /// <summary>
         /// Checks whether or not the given settings are valid and sanitizes the user's input.
         /// </summary>
-        private void SanitizeSettings() {
-            if (settings.randomizeHealth) {
-                if (settings.minHealthCap <= 0) {
+        /// <param name="newSettings">The settings to sanitize</param>
+        private MortalSettings SanitizeSettings(MortalSettings newSettings) {
+            if (newSettings.randomizeHealth) {
+                if (newSettings.minHealthCap <= 0) {
                     Debug.LogWarning("Minimum Health Cap must be greater than 0");
-                    settings.minHealthCap = 1;
+                    newSettings.minHealthCap = 1;
                 }
-                if (settings.maxHealthCap < settings.minHealthCap) {
-                    Debug.LogWarning("Maximum Health Cap must be greater than or equal to " + settings.minHealthCap);
-                    settings.maxHealthCap = settings.minHealthCap;
+                if (newSettings.maxHealthCap < newSettings.minHealthCap) {
+                    Debug.LogWarning("Maximum Health Cap must be greater than or equal to " + newSettings.minHealthCap);
+                    newSettings.maxHealthCap = newSettings.minHealthCap;
                 }
-                if (settings.minStartingHealth <= 0 || settings.minStartingHealth > settings.maxHealthCap) {
-                    Debug.LogWarning("Minimum Starting Health must be greater than 0 and less than or equal to " + settings.maxHealthCap);
-                    settings.minStartingHealth = Mathf.Clamp(settings.minStartingHealth, 1, settings.maxHealthCap);
+                if (newSettings.minStartingHealth <= 0 || newSettings.minStartingHealth > newSettings.maxHealthCap) {
+                    Debug.LogWarning("Minimum Starting Health must be greater than 0 and less than or equal to " + newSettings.maxHealthCap);
+                    newSettings.minStartingHealth = Mathf.Clamp(newSettings.minStartingHealth, 1, newSettings.maxHealthCap);
                 }
-                if (settings.maxStartingHealth < settings.minStartingHealth || settings.maxStartingHealth > settings.maxHealthCap) {
-                    Debug.LogWarning("Maximum Starting Health must be greater than or equal to " + settings.minStartingHealth +
-                        " and less than or equal to " + settings.maxHealthCap);
-                    settings.maxStartingHealth = Mathf.Clamp(settings.maxStartingHealth, settings.minStartingHealth, settings.maxHealthCap);
+                if (newSettings.maxStartingHealth < newSettings.minStartingHealth || newSettings.maxStartingHealth > newSettings.maxHealthCap) {
+                    Debug.LogWarning("Maximum Starting Health must be greater than or equal to " + newSettings.minStartingHealth +
+                        " and less than or equal to " + newSettings.maxHealthCap);
+                    newSettings.maxStartingHealth = Mathf.Clamp(newSettings.maxStartingHealth, newSettings.minStartingHealth, newSettings.maxHealthCap);
                 }
             } else {
-                if (settings.maxHealth <= 0) {
+                if (newSettings.maxHealth <= 0) {
                     Debug.LogWarning("Maximum health must be greater than 0");
-                    settings.maxHealth = 1;
+                    newSettings.maxHealth = 1;
                 }
-                if (settings.startingHealth <= 0 || settings.startingHealth > settings.maxHealth) {
-                    Debug.LogWarning("Starting health must be greater than 0 and less than or equal to " + settings.maxHealth);
-                    settings.startingHealth = Mathf.Clamp(settings.startingHealth, 1, settings.maxHealth);
+                if (newSettings.startingHealth <= 0 || newSettings.startingHealth > newSettings.maxHealth) {
+                    Debug.LogWarning("Starting health must be greater than 0 and less than or equal to " + newSettings.maxHealth);
+                    newSettings.startingHealth = Mathf.Clamp(newSettings.startingHealth, 1, newSettings.maxHealth);
                 }
             }
+
+            return newSettings;
         }
 
         /// <summary>
