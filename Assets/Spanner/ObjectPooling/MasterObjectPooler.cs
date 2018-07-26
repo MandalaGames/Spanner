@@ -65,8 +65,7 @@ namespace Spanner {
         }
 
         public GameObject Get(GameObject prefab) {
-            ObjectPool pool = pools.Find(p => AssetDatabase.GetAssetPath(prefab.GetInstanceID()) == 
-                AssetDatabase.GetAssetPath(p.prefabToPool.GetInstanceID()));
+            ObjectPool pool = pools.Find(p => prefab == p.prefabToPool);
             if (pool != null) {
                 return pool.Get();
             } else {
